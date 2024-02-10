@@ -155,11 +155,69 @@ CREATE TABLE `db_meuslivros`.`tbl_contas_receber` (
   editoras from tbl_livros as L join tbl_editoras as E on L.IdEditora = E.IdEditora
   where E.NomeEditora like 'M%';
   
+  select * from tbl_assuntos right join tbl_livros on tbl_livros.IdAssunto = tbl_assuntos.IdAssunto;
+  
+  SELECT * FROM tbl_livros cross join tbl_livrosautores;
+  
+select nomelivro livro, precolivro preco, 'Livro Caro' resultado from tbl_livros
+where PrecoLivro >= 150.0;
+  
+select nomelivro livro, precolivro preco, 'Livro razoavel' resultado from tbl_livros
+where PrecoLivro < 150.0
+order by Preco;
+
+# unindo os dois comandos
+
+select nomelivro livro, precolivro preco, 'Livro Caro' resultado from tbl_livros
+where PrecoLivro >= 150.0
+   union
+select nomelivro livro, precolivro preco, 'Livro razoavel' resultado from tbl_livros
+where PrecoLivro < 150.0
+order by Preco;
+
+# melhorando o comando select!!!
+
+select l.nomelivro livro, l.precolivro 'preco Normal', 
+l.precolivro * 0.90 'Preço Ajustado', a.assunto
+
+from  tbl_Livros L inner join tbl_assuntos A
+on l.idassunto = a.idassunto 
+; 
+
+select l.nomelivro livro, l.precolivro 'preco Normal', 
+l.precolivro * 1.15 'Preço Ajustado', a.assunto
+
+from  tbl_Livros L inner join tbl_assuntos A
+on l.idassunto = a.idassunto; 
 
 
 
+select l.nomelivro livro, l.precolivro 'preco Normal', 
+l.precolivro * 0.90 'Preço Ajustado', a.assunto
+from tbl_livros L inner join
+tbl_assuntos A
+on l.idassunto = a.idassunto
+where l.precolivro > 200.00
+union
+select l.nomelivro livro, l.precolivro 'preco Normal', 
+l.precolivro * 1.15 'Preço Ajustado', a.assunto
+from  tbl_Livros L inner join tbl_assuntos A
+on l.idassunto = a.idassunto; 
 
 
+select l.nomelivro livro, l.precolivro 'preco Normal', 
+l.precolivro * 0.90 'Preço Ajustado', a.assunto
+from tbl_livros L inner join
+tbl_assuntos A
+on l.idassunto = a.idassunto
+where l.precolivro > 200.00
+union
+select l.nomelivro livro, l.precolivro 'preco Normal', 
+l.precolivro * 1.15 'Preço Ajustado', a.assunto
+from  tbl_Livros L inner join tbl_assuntos A
+on l.idassunto = a.idassunto
+where a.assunto = 'Eletronica'
+order by 'Preco Ajustado' desc; 
 
 
 
