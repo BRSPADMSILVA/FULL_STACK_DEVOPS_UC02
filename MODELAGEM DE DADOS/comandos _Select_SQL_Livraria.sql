@@ -72,6 +72,93 @@ select NomeLivro, PrecoLivro
 from tbl_livros
 where PrecoLivro = (select max(PrecoLivro) from tbl_livros);
 
+select nomelivro as livro, precolivro as preco from tbl_livros where precolivro between 170.0 and 18.0 or PrecoLivro
+between 150.0 and 200.0 or PrecoLivro between 220.0 and 300.0;
+
+# like
+select * from tbl_livros;
+
+select * from tbl_livros where nomelivro like '%A';
+
+select * from tbl_livros where nomelivro like 'A%';
+
+select * from tbl_livros where nomelivro like '%amba';
+
+select * from tbl_livros where nomelivro not like 's%';
+
+select nomelivro as livro from tbl_livros where nomelivro like '_i%';
+
+select nomelivro as livro, precolivro as valor from tbl_livros 
+where nomelivro not like 'A%' and precolivro <= 190.0;
+
+#GROUP BY
+
+select idassunto, sum(numeropaginas) from tbl_livros group by idassunto;
+
+select ideditora, sum(PrecoLivro) from tbl_livros group by idEditora;
+
+select ideditora, avg(numeropaginas), idassunto from tbl_livros group by idEditora;
+
+select ideditora, sum(precolivro) from tbl_livros  where NumeroPaginas >= 1000 group by idEditora
+order by NumeroPaginas;
+
+select ideditora, avg(numeropaginas), IdAssunto from tbl_livros group by idEditora;
+
+select ideditora, avg(numeropaginas), IdAssunto from tbl_livros group by idEditora having avg(NumeroPaginas) >= 1000;
+
+#Desafio para testes de comandos:
+
+
+CREATE TABLE IF NOT EXISTS tbl_contasreceber (
+Idcontasreceber SMALLINT NOT NULL AUTO_INCREMENT,
+Nome CHAR(40) NOT NULL,
+valor DECIMAL(10,2) NOT NULL,
+Vencimento DATE,
+Banco CHAR(10),
+NumeroPaginas SMALLINT NOT NULL,
+IdEditora SMALLINT NOT NULL,
+IdAssunto Tinyint NOT NULL,
+CONSTRAINT pk_id_livro PRIMARY KEY (IdLivro),
+CONSTRAINT fk_id_editora FOREIGN KEY (IdEditora) REFERENCES tbl_Editoras
+(IdEditora) ON DELETE CASCADE,
+CONSTRAINT fk_id_assunto FOREIGN KEY (IdAssunto) REFERENCES tbl_Assuntos
+(IdAssunto) ON DELETE CASCADE
+);
+
+
+
+
+CREATE TABLE `db_meuslivros`.`tbl_contas_receber` (
+  `idtbl_contas_receber` INT NOT NULL,
+  `Nome` CHAR(45) NULL,
+  `Numero` VARCHAR(40) NOT NULL,
+  `Valor` DECIMAL(10,2) NULL,
+  `Vencimento` DATE NULL,
+  `Banco` CHAR(10) NULL,
+  PRIMARY KEY (`idtbl_contas_receber`, `Numero`));
+  
+  
+  
+  select * from tbl_livros inner join tbl_editoras;
+  
+  select * from tbl_livros inner join tbl_editoras on tbl_livros.IdEditora = tbl_editoras.IdEditora;
+  
+  select tbl_livros.NomeLivro, tbl_livros.ISBN13, tbl_assuntos from tbl_livros join tbl_assuntos 
+  on tbl_livros.IdAssunto = tbl_assuntos.IdAssunto;
+  
+  select * from tbl_livros;
+  select *from tbl_assuntos;
+  
+  
+  
+  select L.NomeLivro as livros, e.nomeeditora as
+  editoras from tbl_livros as L join tbl_editoras as E on L.IdEditora = E.IdEditora
+  where E.NomeEditora like 'M%';
+  
+
+
+
+
 
 
 
