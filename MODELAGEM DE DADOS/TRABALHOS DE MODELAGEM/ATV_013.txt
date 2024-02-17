@@ -1,0 +1,178 @@
+
+
+
+-- Criar tabela plano
+CREATE TABLE plano (
+    Numero CHAR(2) PRIMARY KEY,
+    Descricao CHAR(30),
+    Valor DECIMAL(10,2)
+);
+
+-- Inserir registros na tabela plano
+INSERT INTO plano (Numero, Descricao, Valor) VALUES
+('B1', 'Básico', 100.00),
+('B2', 'Básico', 150.00),
+('B3', 'Básico', 200.00),
+('E1', 'Executivo', 250.00),
+('E2', 'Executivo', 300.00),
+('E3', 'Executivo', 350.00),
+('M1', 'Máster', 400.00),
+('M2', 'Máster', 450.00),
+('M3', 'Máster', 500.00);
+
+-- Criar tabela associado
+CREATE TABLE associado (
+    Plano CHAR(2),
+    Nome CHAR(40) PRIMARY KEY,
+    Endereco CHAR(35),
+    Cidade CHAR(20),
+    Estado CHAR(2),
+    CEP CHAR(9)
+);
+
+-- Inserir registros na tabela associado
+INSERT INTO associado (Plano, Nome, Endereco, Cidade, Estado, CEP) VALUES
+('B1', 'JOAO SILVA', 'Rua A, 123', 'SAO PAULO', 'SP', '01000-000'),
+('B2', 'MARIA SOUZA', 'Rua B, 456', 'BARUERI', 'SP', '06400-000'),
+('B3', 'ANA AMARAL', 'Rua C, 789', 'COTIA', 'SP', '06700-000'),
+('E1', 'CARLOS OLIVEIRA', 'Rua D, 321', 'SANTANA DE PARNAIBA', 'SP', '06500-000'),
+('E2', 'FERNANDA PEREIRA', 'Rua E, 654', 'SAO PAULO', 'SP', '01100-000'),
+('E3', 'PEDRO JOSE DE OLIVEIRA', 'Rua F, 987', 'SANTO ANDRE', 'SP', '09000-000'),
+('M1', 'ROBERTA MARTINS', 'Rua G, 123', 'DIADEMA', 'SP', '09900-000'),
+('M2', 'RICARDO AMARAL', 'Rua H, 456', 'BARUERI', 'SP', '06400-000'),
+('M3', 'PAULA FERNANDES', 'Rua I, 789', 'SAO PAULO', 'SP', '01200-000'),
+('B1', 'ANDREIA LIMA', 'Rua J, 321', 'SAO PAULO', 'SP', '01300-000'),
+('B3', 'ANTONIO CARVALHO', 'Rua K, 654', 'BARUERI', 'SP', '06400-000'),
+('E1', 'CAROLINA ROCHA', 'Rua L, 987', 'COTIA', 'SP', '06700-000'),
+('E2', 'RAFAEL PEREIRA', 'Rua M, 123', 'SAO PAULO', 'SP', '01400-000'),
+('M1', 'ANA CAROLINA SILVA', 'Rua N, 456', 'BARUERI', 'SP', '06400-000'),
+('M2', 'FABIO AMARAL', 'Rua O, 789', 'SAO PAULO', 'SP', '01500-000'),
+('M3', 'LUCIANA SANTOS', 'Rua P, 321', 'SANTO ANDRE', 'SP', '09100-000'),
+('B2', 'VITOR SOUZA', 'Rua Q, 654', 'SAO PAULO', 'SP', '01600-000'),
+('B3', 'LUIZ FERNANDES', 'Rua R, 987', 'DIADEMA', 'SP', '09800-000'),
+('E1', 'SILVIA OLIVEIRA', 'Rua S, 123', 'SAO PAULO', 'SP', '01700-000'),
+('E2', 'GABRIEL PEREIRA', 'Rua T, 456', 'BARUERI', 'SP', '06400-000');
+
+-- 1. Quais campos das tabelas associado e plano devem ser utilizados para efetuar o relacionamento entre as tabelas?
+-- O campo "Plano" da tabela "associado" e o campo "Numero" da tabela "plano" devem ser usados para relacionar as tabelas.
+
+-- 2. Extrair uma relação geral de todos os associados e os planos que eles possuem.
+SELECT a.Nome, a.Plano, p.Descricao
+FROM associado a
+INNER JOIN plano p ON a.Plano = p.Numero;
+
+-- 3. Quantos associados possuem o plano B1?
+SELECT COUNT(*) AS Total_B1 FROM associado WHERE Plano = 'B1';
+
+-- 4. Apresente uma relação com todos os nomes, planos e valores de todos os registros de associados.
+SELECT a.Nome, a.Plano, p.Descricao, p.Valor
+FROM associado a
+INNER JOIN plano p ON a.Plano = p.Numero;
+
+-- 5. Quais são os associados que moram em COTIA ou em DIADEMA?
+SELECT Nome, Plano FROM associado WHERE Cidade IN ('COTIA', 'DIADEMA');
+
+-- 6. Apresente o nome, plano e valor dos associados que moram em BARUERI e possuem o plano M1.
+SELECT a.Nome, a.Plano, p.Valor
+FROM associado a
+INNER JOIN plano p ON a.Plano = p.Numero
+WHERE a.Cidade = 'BARUERI' AND a.Plano = 'M1';
+
+-- 7. Apresente uma relação com nome, plano e valor de todos os associados residentes em SÃO PAULO.
+SELECT a.Nome, a.Plano, p.Valor
+FROM associado a
+INNER JOIN plano p ON a.Plano = p.Numero
+WHERE a.Cidade = 'SAO PAULO';
+
+-- 8. Apresente uma relação completa de todos os campos de ambas as tabelas em que o associado possua SILVA no nome.
+SELECT a.*, p.*
+FROM associado a
+INNER JOIN plano p ON a.Plano = p.Numero
+WHERE a.Nome LIKE '%SILVA%';
+
+-- 9. Devido ao aumento do índice IGPM, a empresa reajustou os valores dos planos básicos em 10%, dos planos executivos em 5% e dos planos Máster em 3 %. Atualize os valores na tabela planos.
+UPDATE plano
+SET Valor = CASE 
+                WHEN Descricao = 'Básico' THEN Valor * 1.10
+                WHEN Descricao = 'Executivo' THEN Valor * 1.05
+                WHEN Descricao = 'Máster' THEN Valor * 1.03
+            END;
+
+-- 10. O associado PEDRO JOSE DE OLIVEIRA alterou seu plano de B1 para E3. Faça a devida atualização.
+UPDATE associado
+SET Plano = 'E3'
+WHERE Nome = 'PEDRO JOSE DE OLIVEIRA';
+
+-- 11. Quantos associados possuem o plano E3?
+SELECT COUNT(*) AS Total_E3 FROM associado WHERE Plano = 'E3';
+
+-- 12. Liste o nome e o valor de todos os associados que possuem os planos B1, E1 e M1.
+SELECT a.Nome, p.Valor
+FROM associado a
+INNER JOIN plano p ON a.Plano = p.Numero
+WHERE a.Plano IN ('B1', 'E1', 'M1');
+
+-- 13. Quais são os associados que possuem plano do tipo EXECUTIVO, independentemente da categoria ser 1, 2 ou 3?
+SELECT a.Nome, a.Plano
+FROM associado a
+INNER JOIN plano p ON a.Plano = p.Numero
+WHERE p.Descricao = 'Executivo';
+
+-- 14. Quais são os associados que possuem plano dos tipos Básico e Máster?
+SELECT a.Nome, a.Plano
+FROM associado a
+INNER JOIN plano p ON a.Plano = p.Numero
+WHERE p.Descricao IN ('Básico', 'Máster');
+
+-- 15. A empresa fechou seu escritório na cidade de SANTO ANDRE e transferiu os clientes para um terceirizado. Remova da tabela associados todos os registros existentes de associados da cidade de SANTO ANDRE.
+DELETE FROM associado WHERE Cidade = 'SANTO ANDRE';
+
+-- 16. Apresente o nome, plano e valor dos associados que moram em SÃO PAULO e possuem os planos M2 e M3. A listagem deve estar ordenada pelo campo nome.
+SELECT a.Nome, a.Plano, p.Valor
+FROM associado a
+INNER JOIN plano p ON a.Plano = p.Numero
+WHERE a.Cidade = 'SAO PAULO' AND a.Plano IN ('M2', 'M3')
+ORDER BY a.Nome;
+
+-- 17. Apresente uma listagem completa de todos os campos de ambas as tabelas ordenados por tipo de plano.
+SELECT a.*, p.*
+FROM associado a
+INNER JOIN plano p ON a.Plano = p.Numero
+ORDER BY p.Descricao;
+
+-- 18. Faça uma relação geral de todos os associados e planos que eles possuem. A relação deve ser apresentada em ordem ascendente pelo campo tipo de plano e descendente pelo campo de identificação do nome do associado.
+SELECT a.*, p.*
+FROM associado a
+INNER JOIN plano p ON a.Plano = p.Numero
+ORDER BY p.Descricao ASC, a.Nome DESC;
+
+-- 19. Apresentar uma relação de todos os associados que não possuem o plano Máster.
+SELECT Nome, Plano FROM associado WHERE Plano != 'M1' AND Plano != 'M2' AND Plano != 'M3';
+
+-- 20. Apresentar uma listagem em ordem crescente pelo campo nome do associado. Essa listagem deve ser formada pelos campos Nome da tabela associado e Descrição da tabela Planos.
+SELECT a.Nome, p.Descricao
+FROM associado a
+INNER JOIN plano p ON a.Plano = p.Numero
+ORDER BY a.Nome;
+
+-- 21. Apresentar uma listagem dos planos que estão situados na faixa de valores de 300 até 500
+SELECT *
+FROM plano
+WHERE Valor BETWEEN 300.00 AND 500.00;
+
+-- 22. Apresentar uma relação contendo: nome, plano, descrição do plano e valor de todos os associados que tenham em seu nome, seja na posição que for, a sequência AMARAL.
+SELECT a.Nome, a.Plano, p.Descricao, p.Valor
+FROM associado a
+INNER JOIN plano p ON a.Plano = p.Numero
+WHERE a.Nome LIKE '%AMARAL%';
+
+-- 23. Quais associados residem na cidade de DIADEMA?
+SELECT Nome FROM associado WHERE Cidade = 'DIADEMA';
+
+-- 24. O plano do tipo MASTER teve um reajuste de 6%. Atualize na tabela planos os valores das categorias 1, 2 e 3.
+UPDATE plano
+SET Valor = Valor * 1.06
+WHERE Descricao = 'Máster';
+
+-- 25. Quais são os clientes cujo CEP é iniciado com os valores 09?
+SELECT Nome FROM associado WHERE CEP LIKE '09%';
