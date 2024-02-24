@@ -7,6 +7,7 @@ const rl = readline.createInterface({
     output: process.stdout,
 })
 
+rl.question("Digite o nome do Aluno " , (nome); 
 rl.question("Digite a primeira nota " , (nota1) =>{
     rl.question("Digite a primeira nota " , (nota2) =>{
         const media = (parseFloat(nota1) + parseFloat(nota2)) /2 ;
@@ -16,8 +17,10 @@ rl.question("Digite a primeira nota " , (nota1) =>{
         if (media > 7){
             console .log(chalk.green("👌 Aprovado"));
 
-        } else{
-            console .log(chalk.red.bold("🤦‍♂️ Reprovado"));
+        } else if(media > 5 && media < 7){
+            console .log(chalk.red.bold("🧿 Recuperação"));
+        } else {
+            console .log(chalk.red.bold("🤦‍♂️ Reprovado")); 
         }
 
         rl.close();
