@@ -6,7 +6,7 @@ const questions = [
         name: 'name',
         message: 'Qaual e o seu nome?',
         validate: function (value){
-            if (value.trim().length> 0){
+            if (value.trim().length> 3){
                 return true; 
             } else {
                 return 'Por favor, digite seu nome'  
