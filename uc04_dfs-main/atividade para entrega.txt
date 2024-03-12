@@ -1,0 +1,24 @@
+Desafio 04 : Aplicação Web com Express, Handlebars e Nodemon
+Vence 13 de março de 2024 às 23:59
+Instruções
+Nesta atividade, você irá criar um projeto utilizando as tecnologias Express, Handlebars e Nodemon para desenvolver uma aplicação web dinâmica. O objetivo é construir uma página inicial que exiba uma lista de produtos, os quais estão armazenados em um array de objetos.
+
+Para implementar a página inicial, você utilizará o Handlebars como mecanismo de template, aproveitando o recurso de layout para criar a estrutura básica do HTML. Além disso, será necessário adicionar estilos personalizados utilizando CSS para modificar a aparência da página de acordo com sua preferência.
+
+Os produtos exibidos na página inicial precisarão conter links que levem às páginas individuais de cada produto. Para isso, você utilizará a funcionalidade de URL dinâmica fornecida pelo Express, aproveitando as informações do array de objetos da página inicial.
+
+Ao acessar as páginas individuais de cada produto, você poderá exibir informações detalhadas e específicas de cada item, proporcionando uma experiência mais completa aos usuários.
+
+Além disso, é necessário que você crie um repositório no GitHub para este projeto e faça o upload de todos os arquivos necessários. Ao finalizar a atividade, você deverá entregar o link do GitHub contendo o projeto completo e também anexar um arquivo .zip com a pasta do projeto.
+
+Com a combinação dessas tecnologias e recursos, você poderá criar um projeto web dinâmico, atraente e interativo, que permitirá a exibição e navegação entre diferentes páginas de produtos.
+
+Resumindo
+Crie um projeto com Express, Handlebars e Nodemon;
+Crie também uma rota para uma home, que exibe alguns produtos de um array de objetos;
+Utilize o recurso de layout do Handlebars para a base do HTML;
+Adicione CSS e modifique alguns estilos a sua escolha;
+Os produtos precisam ter um link, que exibe as páginas individuais de cada um, dica: URL dinâmica do Express, aproveite o array da home;
+Poste o projeto no github, disponibilize o link e suba uma pasta .zip para os anexos da entrega da atividade no teams. 
+
+Boa Sorte!
