@@ -1,8 +1,23 @@
  <h1> Olá {{user.name}} {{user.surname}}, seja bem vindo</h1>
 
 {{#if auth}}
+
+<h1>BEM VINDO A NOSSA PAGINA DE OPCOES, POR FAVOR ESCOLAHA UMA DAS SEGUINTES OPÇÕES: </h1>
+
 <p>
-    Você está autenticado no sistema, <a href="/dashboard">clique aqui</a> para acessar área de membros
+    <a href="/dashboard">clique aqui</a> para acessar área de membros
+</p>
+
+<p>
+    <a href="/dashboard">clique aqui</a> para acessar área de investimento
+</p>
+
+<p>
+    <a href="/dashboard">clique aqui</a> para acessar área de Atendimento ao cliente
+</p>
+
+<p>
+    <a href="/dashboard">clique aqui</a> para acessar área de Informações de nossos produtos
 </p>
 {{/if}}
 
