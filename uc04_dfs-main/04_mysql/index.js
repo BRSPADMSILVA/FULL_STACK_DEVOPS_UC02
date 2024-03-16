@@ -1,7 +1,7 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
-const mysql = require('mysql2')
-
+const pool = require('./db/conn')
+console.log(pool)
 const app = express()
 
 app.engine('handlebars', exphbs.engine())
@@ -14,7 +14,6 @@ app.use(
 )
 
 app.use(express.json())
-
 app.use(express.static('public'))
 
 app.get('/', function (req, res) {
@@ -25,9 +24,10 @@ app.post('/books/insertbook', function (req, res) {
   const title = req.body.title
   const pageqty = req.body.pageqty
 
-  const query = `INSERT INTO books (title, pageqty) VALUES ('${title}', ${pageqty})`
+  const query = `INSERT INTO books (??, ??) VALUES (?, ?)`
+  const data = ['title', 'pageqty', title, pageqty]
 
-  conn.query(query, function (err) {
+  pool.query(query, data, function (err) {
     if (err) {
       console.log(err)
     }
@@ -36,47 +36,89 @@ app.post('/books/insertbook', function (req, res) {
   })
 })
 
-app.get('/books', function(req, res) {
-  const query = `SELECT * FROM BOOKS`
-  conn.query(query, function (err, data){
+app.get('/books', function (req, res) {
+  const query = `SELECT * FROM books`
+
+  pool.query(query, function (err, data) {
     if (err) {
       console.log(err)
     }
+
     const books = data
 
     console.log(data)
 
-    res.render('books', {books })
+    res.render('books', { books })
   })
 })
 
-app.get('/books/:id', function(req, res){
+app.get('/books/:id', function (req, res) {
   const id = req.params.id
-  const query = `SELECT * FROM BOOKS WHERE
-  id = ${id}`
-  conn.query(query, function (err, data){
-  if (err) {
-    console.log(err)
-  }
-  const book = data [0]
-  console.log(data[0])
-  res.render('book', {book })
-})
-})
 
-const conn = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'root',
-  database: 'nodemysql',
+  const query = `SELECT * FROM books WHERE ?? = ?`
+  const data = ['id', id]
+
+  pool.query(query, data, function (err, data) {
+    if (err) {
+      console.log(err)
+    }
+
+    const book = data[0]
+
+    console.log(data[0])
+
+    res.render('book', { book })
+  })
 })
 
-conn.connect(function (err) {
-  if (err) {
-    console.log(err)
-  }
+app.get('/books/edit/:id', function (req, res) {
+  const id = req.params.id
 
-  console.log('Conectado ao MySQL!')
+  const query = `SELECT * FROM books WHERE ?? = ?`
+  const data = ['id', id]
 
-  app.listen(3000)
+  pool.query(query, data, function (err, data) {
+    if (err) {
+      console.log(err)
+    }
+
+    const book = data[0]
+
+    console.log(data[0])
+
+    res.render('editbook', { book })
+  })
 })
+
+app.post('/books/updatebook', function (req, res) {
+  const id = req.body.id
+  const title = req.body.title
+  const pageqty = req.body.pageqty
+
+  const query = `UPDATE books SET ?? = ?, ?? = ? WHERE ?? = ?`
+  const data = ['title', title, 'pageqty', pageqty, 'id', id]
+
+  pool.query(query, data, function (err) {
+    if (err) {
+      console.log(err)
+    }
+
+    res.redirect(`/books/edit/${id}`)
+  })
+})
+
+app.post('/books/remove/:id', function (req, res) {
+  const id = req.params.id
+
+  const query = `DELETE FROM books WHERE ?? = ?`
+  const data = ['id', id]
+
+  pool.query(query, data, function (err) {
+    if (err) {
+      console.log(err)
+    }
+    res.redirect(`/books`)
+  })
+})
+
+app.listen(3000)
