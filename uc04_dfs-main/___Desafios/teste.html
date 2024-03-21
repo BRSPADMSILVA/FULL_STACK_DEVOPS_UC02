@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResponseFile>
+ <Response Name="Simple Response with Description" Description="This is a plain
+text response with a description">This is the response</Response>
+ <Response Name="Simple Response without Description">This is the
+response</Response>
+Advanced Configuration – Operating Instructions
+25
+ <Response Name="Response with a replacement" Description="This is a plain text
+response with replaceable identifier">This is the agent name:
+$Agent.Name$</Response>
+ <Response Name="Simple Response without Description">This is the
+response</Response>
+ <Response Name="Multiline Response" Description="This is a multiline response
+with encoded CRLFs">Response Line 1&#x0d;&#x0a;Response Line 2</Response>
+ <Response Name="Image Response" Src="Images/image1.jpg" Description="This is an
+image response using a relative URI" />
+ <Response Name="HTML Response" Src="HtmlFiles/HtmlResponse.htm"
+Description="This is a HTML response using a relative URI" />
+ <Response Name="Image Response with Absolute URI"
+Src="www.mitel.com/Images/logo.jpg" Description="This is an image response using
+an absolute URI" />
+ <Response Name="External Text Response" Src="TextFiles/TextResponse.txt"
+Description="This is a text response using an external source" />
+ <Group Name="Group 1">
+ <Response Name="Response in Group 1">This is the response</Response>
+ <Group Name="Group 2 Inside Group 1">
+ <Response Name="Response in Group 2">This is the response</Response>
+ </Group>
+ </Group>
+ <Group Name="Group 3" Expanded="true">
+ <Response Name="Response in Group 3" Description="This response is in a group
+that is expanded by default">This is the response</Response>
+ </Group>
+</ResponseFile>
